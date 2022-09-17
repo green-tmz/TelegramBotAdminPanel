@@ -23,7 +23,7 @@ class ConversationController extends Controller
     public function start($bot)
     {
 		$user = $bot->getUser();
-		$bot->reply('Здравствуйте, '.$user->getUsername());
-		//$bot->startConversation(new StartConversation);
+		$bot->reply('Здравствуйте, '.$user->getUsername().'!');
+		$bot->startConversation(new StartConversation);
 	}
 }

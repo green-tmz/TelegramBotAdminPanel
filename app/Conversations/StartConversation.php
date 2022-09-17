@@ -16,8 +16,31 @@ class StartConversation extends Conversation
      */
     public function startConversation()
     {
-		//$user = $bot->getUser();
-		$bot->reply('Здравствуйте, ');
+		 $question = Question::create('Чем я могу помочь Вам?')
+            ->addButtons([
+                Button::create('Посмотреть портфолио')->value('portfolio'),
+                Button::create('Сделать заказ на разработку')->value('order'),
+                Button::create('Задать вопрос')->value('question'),
+            ]);
+
+        // We ask our user the question.
+        return $this->ask($question, function (Answer $answer) {
+            // Did the user click on an option or entered a text?
+            if ($answer->isInteractiveMessageReply()) {
+                // We compare the answer to our pre-defined ones and respond accordingly.
+                switch ($answer->getValue()) {
+					case 'portfolio':
+						$this->say((new App\Services\DogService)->random());
+						break;
+                    case 'order':
+                        $this->askForBreedName();
+                        break;
+                    case 'question':
+                        $this->askForSubBreed();
+                        break;
+                }
+            }
+        });
         
     }
 
